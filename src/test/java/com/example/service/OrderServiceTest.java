@@ -37,6 +37,17 @@ class OrderServiceTest {
                 new Product(43.5, "Head First Java", true),
                 new Product(21.67, "Java Concurrency in Practice", true));
         orderService.placeOrder(products);
+        Mockito.verify(customerEventNotifier).sendEmail();
+    }
+
+    @Test
+    void placeOrder_should_not_send_mail_when_products_count_is_2() {
+        List<Product> products = List.of(
+                new Product(32.4, "Lean Startup", false),
+                new Product(43.5, "Head First Java", true));
+        orderService.placeOrder(products);
+        Mockito.verify(customerEventNotifier, Mockito.times(0))
+                .sendEmail();
     }
 
 }
